@@ -83,6 +83,14 @@ int main()
           m.emplace( 9,  "nine" );
 
           std::cout << m << "\n";
+
+          std::map< int, Person > m2;
+
+          m2.emplace( std::piecewise_construct, std::make_tuple( 1 ), std::make_tuple( "Иванов", "Валерий" ) );
+          m2.emplace( std::piecewise_construct, std::make_tuple( 2 ), std::make_tuple( "Петров", "Максим" ) );
+          m2.emplace( std::piecewise_construct, std::make_tuple( 3 ), std::make_tuple( "Сидоров", "Олег" ) );
+
+          std::cout << m2 << "\n";
      }
      catch( const std::exception& e )
      {
