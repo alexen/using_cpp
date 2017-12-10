@@ -86,18 +86,20 @@ inline Quote< T > quote( const T& value )
 
 template< typename Iter >
 struct Range {
-     Range( Iter b, Iter e )
+     Range( Iter b, Iter e, const char* const s = ", " )
           : begin{ b }
           , end{ e }
+          , sep{ s }
      {}
      const Iter begin, end;
+     const char* const sep;
 };
 
 
 template< typename Iter >
-inline Range< Iter > range( Iter begin, Iter end )
+inline Range< Iter > range( Iter begin, Iter end, const char* sep = ", " )
 {
-     return Range< Iter >{ begin, end };
+     return Range< Iter >{ begin, end, sep };
 }
 
 
@@ -144,7 +146,7 @@ std::ostream& operator<<( std::ostream& ostr, const ostream_tools::Range< Iter >
 {
      for( auto iter = seq.begin; iter != seq.end; ++iter )
      {
-          ostr << (iter == seq.begin ? "" : ", ") << ostream_tools::quote( *iter );
+          ostr << (iter == seq.begin ? "" : seq.sep) << ostream_tools::quote( *iter );
      }
      return ostr;
 }
