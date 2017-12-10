@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <functional>
+#include <boost/functional/hash.hpp>
 
 
 class Person {
@@ -44,8 +45,10 @@ template<>
 struct hash< Person > {
      size_t operator()( const Person& p ) const noexcept
      {
-          return hash< std::string >{}( p.lastName() )
-               ^ hash< std::string >{}( p.firstName() );
+          std::size_t seed = 0;
+          boost::hash_combine( seed, p.lastName() );
+          boost::hash_combine( seed, p.firstName() );
+          return seed;
      }
 };
 
