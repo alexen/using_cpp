@@ -7,8 +7,11 @@
 
 #include <map>
 #include <set>
+#include <unordered_set>
+#include <unordered_map>
 #include <tuple>
 #include <vector>
+#include <functional>
 #include <iostream>
 #include <stdexcept>
 #include <boost/exception/diagnostic_information.hpp>
@@ -91,28 +94,38 @@ int main()
 {
      try
      {
-          std::map< int, const char* > m;
+          std::unordered_multiset< std::string > uset;
 
-          m.emplace( 0,  "zero" );
-          m.emplace( 1,   "one" );
-          m.emplace( 2,   "two" );
-          m.emplace( 3, "three" );
-          m.emplace( 4,  "four" );
-          m.emplace( 5,  "five" );
-          m.emplace( 6,   "six" );
-          m.emplace( 7, "seven" );
-          m.emplace( 8, "eight" );
-          m.emplace( 9,  "nine" );
+          uset.emplace( "My" );
+          uset.emplace( "Bonny" );
+          uset.emplace( "is" );
+          uset.emplace( "over" );
+          uset.emplace( "the" );
+          uset.emplace( "ocean" );
+          uset.emplace( "My" );
+          uset.emplace( "Bonny" );
+          uset.emplace( "is" );
+          uset.emplace( "over" );
+          uset.emplace( "the" );
+          uset.emplace( "sea" );
+          uset.emplace( "Quick" );
+          uset.emplace( "brown" );
+          uset.emplace( "fox" );
+          uset.emplace( "jump" );
+          uset.emplace( "over" );
+          uset.emplace( "sleeping" );
+          uset.emplace( "fat" );
+          uset.emplace( "lazy" );
+          uset.emplace( "dog" );
 
-          std::cout << m << "\n";
+          std::cout << uset << "\n";
 
-          std::map< int, Person > m2;
-
-          m2.emplace( std::piecewise_construct, std::make_tuple( 1 ), std::make_tuple( "Иванов", "Валерий" ) );
-          m2.emplace( std::piecewise_construct, std::make_tuple( 2 ), std::make_tuple( "Петров", "Максим" ) );
-          m2.emplace( std::piecewise_construct, std::make_tuple( 3 ), std::make_tuple( "Сидоров", "Олег" ) );
-
-          std::cout << m2 << "\n";
+          std::cout << "bucket count: " << uset.bucket_count() << "\n";
+          for( auto i = 0u; i < uset.bucket_count(); ++i )
+          {
+               std::cout << "bucket index " << std::setw( 2 ) << i << ": " << uset.bucket_size( i ) << " "
+                    << ostream_tools::range( uset.cbegin( i ), uset.cend( i ) ) << "\n";
+          }
      }
      catch( const std::exception& e )
      {
