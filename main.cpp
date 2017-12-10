@@ -66,6 +66,13 @@ int main()
           persons.emplace( "Собакевич", "Тарас" );
 
           std::cout << persons << "\n";
+
+          const Person p1{ "Сергей", "Андрей" };
+          const Person p2{ "Андрей", "Сергей" };
+
+          std::cout
+               << p1 << ": " << std::hash< Person >{}( p1 ) << "\n"
+               << p2 << ": " << std::hash< Person >{}( p2 ) << "\n";
      }
      catch( const std::exception& e )
      {
