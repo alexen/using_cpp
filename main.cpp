@@ -54,6 +54,28 @@ private:
 };
 
 
+bool operator==( const Person& p1, const Person& p2 )
+{
+     return p1.lastName() == p2.lastName()
+          && p1.firstName() == p2.firstName();
+}
+
+
+template< typename T >
+std::size_t hash( const T& v )
+{
+     return std::hash< T >{}( v );
+}
+
+
+struct PersonHasher {
+     std::size_t operator()( const Person& p ) const noexcept
+     {
+          return hash( p.lastName() ) ^ hash( p.firstName() );
+     }
+};
+
+
 std::ostream& operator<<( std::ostream& ostr, const Person& p )
 {
      ostr << "Person("
