@@ -10,6 +10,7 @@
 #include <cstddef>
 #include <map>
 #include <set>
+#include <unordered_set>
 #include <array>
 #include <ostream>
 #include <iterator>
@@ -205,6 +206,50 @@ template< typename K, typename V >
 std::ostream& operator<<( std::ostream& ostr, const std::map< K, V >& m )
 {
      ostr << "std::map<"
+          << boost::typeindex::type_id_with_cvr< K >().pretty_name()
+          << ", "
+          << boost::typeindex::type_id_with_cvr< V >().pretty_name()
+          << ">{";
+     for( auto iter = m.cbegin(); iter != m.cend(); ++iter )
+     {
+          ostr << (iter == m.cbegin() ? "" : ", ")
+               << ostream_tools::quote( iter->first )
+               << ": "
+               << ostream_tools::quote( iter->second );
+     }
+     ostr << "}";
+     return ostr;
+}
+
+
+template< typename T, typename H, typename P, typename A >
+inline std::ostream& operator<<( std::ostream& ostr, const std::unordered_set< T, H, P, A >& set )
+{
+     ostr << "std::unordered_set<"
+          << boost::typeindex::type_id_with_cvr< T >().pretty_name()
+          << ">{"
+          << ostream_tools::range( set.cbegin(), set.cend() )
+          << "}";
+     return ostr;
+}
+
+
+template< typename T, typename H, typename P, typename A >
+inline std::ostream& operator<<( std::ostream& ostr, const std::unordered_multiset< T, H, P, A >& set )
+{
+     ostr << "std::unordered_multiset<"
+          << boost::typeindex::type_id_with_cvr< T >().pretty_name()
+          << ">{"
+          << ostream_tools::range( set.cbegin(), set.cend() )
+          << "}";
+     return ostr;
+}
+
+
+template< typename K, typename V, typename H, typename P, typename A >
+std::ostream& operator<<( std::ostream& ostr, const std::unordered_map< K, V, H, P, A >& m )
+{
+     ostr << "std::unordered_map<"
           << boost::typeindex::type_id_with_cvr< K >().pretty_name()
           << ", "
           << boost::typeindex::type_id_with_cvr< V >().pretty_name()
