@@ -16,78 +16,8 @@
 #include <stdexcept>
 #include <boost/exception/diagnostic_information.hpp>
 #include <stl_container_io.h>
-
-
-class Person {
-public:
-     Person( const std::string& lastName, const std::string& firstName )
-          : lastName_{ lastName }
-          , firstName_{ firstName }
-     {
-          std::cout << __PRETTY_FUNCTION__ << "\n";
-     }
-
-     Person( const Person& o )
-          : lastName_{ o.lastName_ }
-          , firstName_{ o.firstName_ }
-     {
-          std::cout << __PRETTY_FUNCTION__ << "\n";
-     }
-
-     Person( Person&& o )
-          : lastName_{ std::move( o.lastName_ ) }
-          , firstName_{ std::move( o.firstName_ ) }
-     {
-          std::cout << __PRETTY_FUNCTION__ << "\n";
-     }
-
-     const std::string& lastName() const
-     {
-          return lastName_;
-     }
-
-     const std::string& firstName() const
-     {
-          return firstName_;
-     }
-
-private:
-     const std::string lastName_;
-     const std::string firstName_;
-};
-
-
-bool operator==( const Person& p1, const Person& p2 )
-{
-     return p1.lastName() == p2.lastName()
-          && p1.firstName() == p2.firstName();
-}
-
-
-template< typename T >
-std::size_t hash( const T& v )
-{
-     return std::hash< T >{}( v );
-}
-
-
-struct PersonHasher {
-     std::size_t operator()( const Person& p ) const noexcept
-     {
-          return hash( p.lastName() ) ^ hash( p.firstName() );
-     }
-};
-
-
-std::ostream& operator<<( std::ostream& ostr, const Person& p )
-{
-     ostr << "Person("
-          << ostream_tools::quote( p.lastName() )
-          << ", "
-          << ostream_tools::quote( p.firstName() )
-          << ")";
-     return ostr;
-}
+#include <person.h>
+#include <person_io.h>
 
 
 int main()
@@ -126,6 +56,16 @@ int main()
                std::cout << "bucket index " << std::setw( 2 ) << i << ": " << uset.bucket_size( i ) << " "
                     << ostream_tools::range( uset.cbegin( i ), uset.cend( i ) ) << "\n";
           }
+
+          std::unordered_set< Person > persons;
+
+          persons.emplace( "Кулибин", "Артур" );
+          persons.emplace( "Проскурин", "Фёдор" );
+          persons.emplace( "Дерябин", "Константин" );
+          persons.emplace( "Корягин", "Михаил" );
+          persons.emplace( "Собакевич", "Тарас" );
+
+          std::cout << persons << "\n";
      }
      catch( const std::exception& e )
      {
