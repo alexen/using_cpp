@@ -11,6 +11,7 @@
 #include <map>
 #include <set>
 #include <unordered_set>
+#include <unordered_map>
 #include <array>
 #include <ostream>
 #include <iterator>
@@ -197,6 +198,10 @@ inline std::ostream& operator<<( std::ostream& ostr, const std::set< T, C, A >& 
 {
      ostr << "std::set<"
           << boost::typeindex::type_id_with_cvr< T >().pretty_name()
+          << ", "
+          << boost::typeindex::type_id_with_cvr< C >().pretty_name()
+          << ", "
+          << boost::typeindex::type_id_with_cvr< A >().pretty_name()
           << ">{"
           << ostream_tools::range( set.cbegin(), set.cend() )
           << "}";
@@ -211,6 +216,10 @@ std::ostream& operator<<( std::ostream& ostr, const std::map< K, V, C, A >& m )
           << boost::typeindex::type_id_with_cvr< K >().pretty_name()
           << ", "
           << boost::typeindex::type_id_with_cvr< V >().pretty_name()
+          << ", "
+          << boost::typeindex::type_id_with_cvr< C >().pretty_name()
+          << ", "
+          << boost::typeindex::type_id_with_cvr< A >().pretty_name()
           << ">{";
      for( auto iter = m.cbegin(); iter != m.cend(); ++iter )
      {
@@ -229,6 +238,12 @@ inline std::ostream& operator<<( std::ostream& ostr, const std::unordered_set< T
 {
      ostr << "std::unordered_set<"
           << boost::typeindex::type_id_with_cvr< T >().pretty_name()
+          << ", "
+          << boost::typeindex::type_id_with_cvr< H >().pretty_name()
+          << ", "
+          << boost::typeindex::type_id_with_cvr< P >().pretty_name()
+          << ", "
+          << boost::typeindex::type_id_with_cvr< A >().pretty_name()
           << ">{"
           << ostream_tools::range( set.cbegin(), set.cend() )
           << "}";
@@ -241,6 +256,12 @@ inline std::ostream& operator<<( std::ostream& ostr, const std::unordered_multis
 {
      ostr << "std::unordered_multiset<"
           << boost::typeindex::type_id_with_cvr< T >().pretty_name()
+          << ", "
+          << boost::typeindex::type_id_with_cvr< H >().pretty_name()
+          << ", "
+          << boost::typeindex::type_id_with_cvr< P >().pretty_name()
+          << ", "
+          << boost::typeindex::type_id_with_cvr< A >().pretty_name()
           << ">{"
           << ostream_tools::range( set.cbegin(), set.cend() )
           << "}";
