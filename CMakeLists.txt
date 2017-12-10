@@ -11,4 +11,5 @@ include_directories(${CMAKE_SOURCE_DIR})
 set(NAME using_cpp)
 add_executable(${NAME}
      main.cpp
+     person.cpp
 )
