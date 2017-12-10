@@ -190,8 +190,8 @@ inline std::ostream& operator<<( std::ostream& ostr, const std::array< T, Size >
 }
 
 
-template< typename T >
-inline std::ostream& operator<<( std::ostream& ostr, const std::set< T >& set )
+template< typename T, typename C, typename A >
+inline std::ostream& operator<<( std::ostream& ostr, const std::set< T, C, A >& set )
 {
      ostr << "std::set<"
           << boost::typeindex::type_id_with_cvr< T >().pretty_name()
@@ -202,8 +202,8 @@ inline std::ostream& operator<<( std::ostream& ostr, const std::set< T >& set )
 }
 
 
-template< typename K, typename V >
-std::ostream& operator<<( std::ostream& ostr, const std::map< K, V >& m )
+template< typename K, typename V, typename C, typename A >
+std::ostream& operator<<( std::ostream& ostr, const std::map< K, V, C, A >& m )
 {
      ostr << "std::map<"
           << boost::typeindex::type_id_with_cvr< K >().pretty_name()
