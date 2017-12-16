@@ -156,9 +156,10 @@ std::ostream& operator<<( std::ostream& ostr, const ostream_tools::Range< Iter >
 template< typename ...Args >
 inline std::ostream& operator<<( std::ostream& ostr, const std::tuple< Args... >& tuple )
 {
-     ostr << "std::tuple<";
+     ostr << boost::typeindex::type_id< decltype( tuple ) >().pretty_name()
+          << "{";
      ostream_tools::TuplePrinter< 0, sizeof...( Args ), Args... >::print( ostr, tuple );
-     ostr << ">";
+     ostr << "}";
      return ostr;
 }
 
@@ -166,11 +167,8 @@ inline std::ostream& operator<<( std::ostream& ostr, const std::tuple< Args... >
 template< typename T, typename U >
 inline std::ostream& operator<<( std::ostream& ostr, const std::pair< T, U >& pair )
 {
-     ostr << "std::pair<"
-          << boost::typeindex::type_id_with_cvr< T >().pretty_name()
-          << ", "
-          << boost::typeindex::type_id_with_cvr< U >().pretty_name()
-          << ">{"
+     ostr << boost::typeindex::type_id< decltype( pair ) >().pretty_name()
+          << "{"
           << ostream_tools::quote( pair.first )
           << ", "
           << ostream_tools::quote( pair.second )
@@ -182,12 +180,20 @@ inline std::ostream& operator<<( std::ostream& ostr, const std::pair< T, U >& pa
 template< typename T, std::size_t Size >
 inline std::ostream& operator<<( std::ostream& ostr, const std::array< T, Size >& array )
 {
-     ostr << "std::array<"
-          << boost::typeindex::type_id_with_cvr< T >().pretty_name()
-          << ", "
-          << Size
-          << ">{"
+     ostr << boost::typeindex::type_id< decltype( array ) >().pretty_name()
+          << "{"
           << ostream_tools::range( array.cbegin(), array.cend() )
+          << "}";
+     return ostr;
+}
+
+
+template< typename T, typename A >
+inline std::ostream& operator<<( std::ostream& ostr, const std::vector< T, A >& vector )
+{
+     ostr << boost::typeindex::type_id< decltype( vector ) >().pretty_name()
+          << "{"
+          << ostream_tools::range( vector.cbegin(), vector.cend() )
           << "}";
      return ostr;
 }
@@ -196,13 +202,8 @@ inline std::ostream& operator<<( std::ostream& ostr, const std::array< T, Size >
 template< typename T, typename C, typename A >
 inline std::ostream& operator<<( std::ostream& ostr, const std::set< T, C, A >& set )
 {
-     ostr << "std::set<"
-          << boost::typeindex::type_id_with_cvr< T >().pretty_name()
-          << ", "
-          << boost::typeindex::type_id_with_cvr< C >().pretty_name()
-          << ", "
-          << boost::typeindex::type_id_with_cvr< A >().pretty_name()
-          << ">{"
+     ostr << boost::typeindex::type_id< decltype( set ) >().pretty_name()
+          << "{"
           << ostream_tools::range( set.cbegin(), set.cend() )
           << "}";
      return ostr;
@@ -212,15 +213,8 @@ inline std::ostream& operator<<( std::ostream& ostr, const std::set< T, C, A >& 
 template< typename K, typename V, typename C, typename A >
 std::ostream& operator<<( std::ostream& ostr, const std::map< K, V, C, A >& m )
 {
-     ostr << "std::map<"
-          << boost::typeindex::type_id_with_cvr< K >().pretty_name()
-          << ", "
-          << boost::typeindex::type_id_with_cvr< V >().pretty_name()
-          << ", "
-          << boost::typeindex::type_id_with_cvr< C >().pretty_name()
-          << ", "
-          << boost::typeindex::type_id_with_cvr< A >().pretty_name()
-          << ">{";
+     ostr << boost::typeindex::type_id< decltype( m ) >().pretty_name()
+          << "{";
      for( auto iter = m.cbegin(); iter != m.cend(); ++iter )
      {
           ostr << (iter == m.cbegin() ? "" : ", ")
@@ -236,15 +230,8 @@ std::ostream& operator<<( std::ostream& ostr, const std::map< K, V, C, A >& m )
 template< typename T, typename H, typename P, typename A >
 inline std::ostream& operator<<( std::ostream& ostr, const std::unordered_set< T, H, P, A >& set )
 {
-     ostr << "std::unordered_set<"
-          << boost::typeindex::type_id_with_cvr< T >().pretty_name()
-          << ", "
-          << boost::typeindex::type_id_with_cvr< H >().pretty_name()
-          << ", "
-          << boost::typeindex::type_id_with_cvr< P >().pretty_name()
-          << ", "
-          << boost::typeindex::type_id_with_cvr< A >().pretty_name()
-          << ">{"
+     ostr << boost::typeindex::type_id< decltype( set ) >().pretty_name()
+          << "{"
           << ostream_tools::range( set.cbegin(), set.cend() )
           << "}";
      return ostr;
@@ -254,15 +241,8 @@ inline std::ostream& operator<<( std::ostream& ostr, const std::unordered_set< T
 template< typename T, typename H, typename P, typename A >
 inline std::ostream& operator<<( std::ostream& ostr, const std::unordered_multiset< T, H, P, A >& set )
 {
-     ostr << "std::unordered_multiset<"
-          << boost::typeindex::type_id_with_cvr< T >().pretty_name()
-          << ", "
-          << boost::typeindex::type_id_with_cvr< H >().pretty_name()
-          << ", "
-          << boost::typeindex::type_id_with_cvr< P >().pretty_name()
-          << ", "
-          << boost::typeindex::type_id_with_cvr< A >().pretty_name()
-          << ">{"
+     ostr << boost::typeindex::type_id< decltype( set ) >().pretty_name()
+          << "{"
           << ostream_tools::range( set.cbegin(), set.cend() )
           << "}";
      return ostr;
@@ -272,11 +252,8 @@ inline std::ostream& operator<<( std::ostream& ostr, const std::unordered_multis
 template< typename K, typename V, typename H, typename P, typename A >
 std::ostream& operator<<( std::ostream& ostr, const std::unordered_map< K, V, H, P, A >& m )
 {
-     ostr << "std::unordered_map<"
-          << boost::typeindex::type_id_with_cvr< K >().pretty_name()
-          << ", "
-          << boost::typeindex::type_id_with_cvr< V >().pretty_name()
-          << ">{";
+     ostr << boost::typeindex::type_id< decltype( m ) >().pretty_name()
+          << "{";
      for( auto iter = m.cbegin(); iter != m.cend(); ++iter )
      {
           ostr << (iter == m.cbegin() ? "" : ", ")
