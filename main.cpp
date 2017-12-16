@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include <tuple>
 #include <vector>
+#include <fstream>
 #include <functional>
 #include <iostream>
 #include <stdexcept>
@@ -20,59 +21,37 @@
 #include <person_io.h>
 
 
+class Redirector {
+public:
+     explicit Redirector( std::ostream& from )
+          : ostr_( from )
+     {}
+
+     void to( std::ostream& to )
+     {
+          streambuf_ = ostr_.rdbuf( to.rdbuf() );
+     }
+
+     ~Redirector()
+     {
+          if( streambuf_ )
+          {
+               ostr_.rdbuf( streambuf_ );
+          }
+     }
+
+private:
+     std::ostream& ostr_;
+     std::streambuf* streambuf_ = nullptr;
+};
+
+
 int main()
 {
      try
      {
-          std::unordered_multiset< std::string > uset;
-
-          uset.emplace( "My" );
-          uset.emplace( "Bonny" );
-          uset.emplace( "is" );
-          uset.emplace( "over" );
-          uset.emplace( "the" );
-          uset.emplace( "ocean" );
-          uset.emplace( "My" );
-          uset.emplace( "Bonny" );
-          uset.emplace( "is" );
-          uset.emplace( "over" );
-          uset.emplace( "the" );
-          uset.emplace( "sea" );
-          uset.emplace( "Quick" );
-          uset.emplace( "brown" );
-          uset.emplace( "fox" );
-          uset.emplace( "jump" );
-          uset.emplace( "over" );
-          uset.emplace( "sleeping" );
-          uset.emplace( "fat" );
-          uset.emplace( "lazy" );
-          uset.emplace( "dog" );
-
-          std::cout << uset << "\n";
-
-          std::cout << "bucket count: " << uset.bucket_count() << "\n";
-          for( auto i = 0u; i < uset.bucket_count(); ++i )
-          {
-               std::cout << "bucket index " << std::setw( 2 ) << i << ": " << uset.bucket_size( i ) << " "
-                    << ostream_tools::range( uset.cbegin( i ), uset.cend( i ) ) << "\n";
-          }
-
-          std::unordered_set< Person > persons;
-
-          persons.emplace( "Кулибин", "Артур" );
-          persons.emplace( "Проскурин", "Фёдор" );
-          persons.emplace( "Дерябин", "Константин" );
-          persons.emplace( "Корягин", "Михаил" );
-          persons.emplace( "Собакевич", "Тарас" );
-
-          std::cout << persons << "\n";
-
-          const Person p1{ "Сергей", "Андрей" };
-          const Person p2{ "Андрей", "Сергей" };
-
-          std::cout
-               << p1 << ": " << std::hash< Person >{}( p1 ) << "\n"
-               << p2 << ": " << std::hash< Person >{}( p2 ) << "\n";
+          std::cout << std::make_tuple( "Pi is", ':', 3.14 ) << "\n";
+          std::cout << std::array< float, 4 >{ 1.2, 3.4, 2.1, 0.5 } << "\n";
      }
      catch( const std::exception& e )
      {
