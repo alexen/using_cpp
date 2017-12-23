@@ -26,6 +26,20 @@
 #include <user_streambuf.h>
 
 
+class FileDescriptorOstream : public std::ostream {
+public:
+     explicit FileDescriptorOstream( int fd )
+          : std::ostream{ 0 }
+          , fdstreambuf_{ fd }
+     {
+          rdbuf( &fdstreambuf_ );
+     }
+
+protected:
+     FdStreambuf fdstreambuf_;
+};
+
+
 int main()
 {
      try
@@ -36,8 +50,7 @@ int main()
                BOOST_THROW_EXCEPTION( std::system_error( errno, std::system_category() ) );
           }
           std::unique_ptr< FILE, decltype( &fclose ) > file{ fptr, fclose };
-          FdStreambuf strbuf{ fileno( file.get() ) };
-          std::ostream ostr{ &strbuf };
+          FileDescriptorOstream ostr{ 1 };
           ostr << '@' << "\n"
                << std::make_tuple( 3.14, "hello", '1') << "\n"
                << 1 << '\n'
