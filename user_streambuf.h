@@ -105,3 +105,19 @@ private:
 
      int fd_;
 };
+
+
+class InputBuffer : public std::streambuf {
+public:
+     InputBuffer( const char* data, const std::size_t len )
+     {
+          setg(
+               const_cast< char* >( data ),
+               const_cast< char* >( data ),
+               const_cast< char* >( data + len )
+               );
+     }
+
+     explicit InputBuffer( const Buffer& buffer )
+          : InputBuffer( buffer.data(), buffer.size() ) {}
+};

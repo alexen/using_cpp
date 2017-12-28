@@ -44,18 +44,30 @@ int main()
 {
      try
      {
-          FILE* fptr = fopen( "/tmp/output.txt", "w" );
-          if( !fptr )
-          {
-               BOOST_THROW_EXCEPTION( std::system_error( errno, std::system_category() ) );
-          }
-          std::unique_ptr< FILE, decltype( &fclose ) > file{ fptr, fclose };
-          FileDescriptorOstream ostr{ 1 };
-          ostr << '@' << "\n"
-               << std::make_tuple( 3.14, "hello", '1') << "\n"
-               << 1 << '\n'
-               << 2  << '\n'
-               << 2.18 << '\n';
+          const std::string input =
+               "My Bonny is over the ocean,\n"
+               "My Bonny is over the sea,\n"
+               "My Bonny is over the ocean,\n"
+               "So bring back my Bonny to me...";
+
+          InputBuffer ibuf{ input.data(), input.size() };
+          std::istream istr{ &ibuf };
+
+          Buffer buffer;
+          BufferStream obuf{ buffer };
+          std::ostream ostr{ &obuf };
+
+          istr >> ostr.rdbuf();
+
+          std::cout
+               << "result: "
+               << boost::string_ref(
+                    buffer.data(),
+                    buffer.size()
+                    )
+               << "\n";
+
+          std::cout << "done.\n";
      }
      catch( const std::exception& e )
      {
