@@ -5,10 +5,19 @@
 #pragma once
 
 #include <system_error>
+#include <boost/exception/exception.hpp>
 
 
 namespace using_cpp {
 namespace errors {
+
+
+struct Exception : std::system_error, boost::exception
+{
+     explicit Exception( const std::error_code& ec ) : std::system_error{ ec } {}
+};
+
+
 namespace network {
 
 
