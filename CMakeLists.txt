@@ -19,5 +19,6 @@ include_directories(${Boost_INCLUDE_DIRS})
 project(using_cpp CXX)
 
 add_subdirectory(entities)
+add_subdirectory(errors)
 add_executable(${PROJECT_NAME} main.cpp)
-target_link_libraries(${PROJECT_NAME} entities)
+target_link_libraries(${PROJECT_NAME} entities errors)
