@@ -24,6 +24,7 @@
 #include <entities/person_io.h>
 #include <io/tools.h>
 #include <user_streambuf.h>
+#include <errors/errors.h>
 
 
 class FileDescriptorOstream : public std::ostream {
@@ -44,30 +45,16 @@ int main()
 {
      try
      {
-          const std::string input =
-               "My Bonny is over the ocean,\n"
-               "My Bonny is over the sea,\n"
-               "My Bonny is over the ocean,\n"
-               "So bring back my Bonny to me...";
+          using namespace using_cpp::errors;
 
-          InputBuffer ibuf{ input.data(), input.size() };
-          std::istream istr{ &ibuf };
-
-          Buffer buffer;
-          BufferStream obuf{ buffer };
-          std::ostream ostr{ &obuf };
-
-          istr >> ostr.rdbuf();
-
-          std::cout
-               << "result: "
-               << boost::string_ref(
-                    buffer.data(),
-                    buffer.size()
-                    )
-               << "\n";
+          BOOST_THROW_EXCEPTION( Exception{ make_error_code( http::HttpErrorStatus::Forbidden ) } );
 
           std::cout << "done.\n";
+     }
+     catch( const using_cpp::errors::Exception& e )
+     {
+          std::cerr << "exception: category: " << e.code().category().name()
+               << ", code: " << e.code().value() << '\n';
      }
      catch( const std::exception& e )
      {
