@@ -20,9 +20,9 @@
 #include <system_error>
 #include <boost/utility/string_ref.hpp>
 #include <boost/exception/diagnostic_information.hpp>
-#include <stl_container_io.h>
-#include <person.h>
-#include <person_io.h>
+#include <entities/person.h>
+#include <entities/person_io.h>
+#include <io/tools.h>
 #include <user_streambuf.h>
 
 

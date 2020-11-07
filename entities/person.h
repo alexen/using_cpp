@@ -8,21 +8,20 @@
 #pragma once
 
 #include <iostream>
-#include <string>
-#include <functional>
 #include <boost/functional/hash.hpp>
+
+
+namespace using_cpp {
+namespace entities {
 
 
 class Person {
 public:
      Person( const std::string& lastName, const std::string& firstName, std::ostream& ostr = std::clog );
-
      Person( const Person& o );
-
      Person( Person&& o );
 
      const std::string& lastName() const noexcept;
-
      const std::string& firstName() const noexcept;
 
 private:
@@ -38,12 +37,16 @@ inline bool operator==( const Person& p1, const Person& p2 )
 }
 
 
-namespace std
-{
+} // namespace entities
+} // namespace using_cpp
+
+
+namespace std {
+
 
 template<>
-struct hash< Person > {
-     size_t operator()( const Person& p ) const noexcept
+struct hash< using_cpp::entities::Person > {
+     size_t operator()( const using_cpp::entities::Person& p ) const noexcept
      {
           std::size_t seed = 0;
           boost::hash_combine( seed, p.lastName() );
@@ -52,4 +55,5 @@ struct hash< Person > {
      }
 };
 
-}
+
+} // namespace std

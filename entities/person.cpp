@@ -5,8 +5,25 @@
 ///     Author: alexen
 ///
 
-#include <person.h>
-#include <stl_container_io.h>
+#include <entities/person.h>
+#include <io/tools.h>
+#include <iostream>
+
+
+
+std::ostream& operator<<( std::ostream& ostr, const using_cpp::entities::Person& p )
+{
+     ostr << "Person("
+          << using_cpp::io::tools::quote( p.lastName() )
+          << ", "
+          << using_cpp::io::tools::quote( p.firstName() )
+          << ")";
+     return ostr;
+}
+
+
+namespace using_cpp {
+namespace entities {
 
 
 Person::Person( const std::string& lastName, const std::string& firstName, std::ostream& ostr )
@@ -48,12 +65,5 @@ const std::string& Person::firstName() const noexcept
 }
 
 
-std::ostream& operator<<( std::ostream& ostr, const Person& p )
-{
-     ostr << "Person("
-          << ostream_tools::quote( p.lastName() )
-          << ", "
-          << ostream_tools::quote( p.firstName() )
-          << ")";
-     return ostr;
-}
+} // namespace entities
+} // namespace using_cpp

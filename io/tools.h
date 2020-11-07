@@ -19,8 +19,9 @@
 #include <boost/type_index.hpp>
 
 
-namespace ostream_tools
-{
+namespace using_cpp {
+namespace io {
+namespace tools {
 
 
 template< typename T >
@@ -117,7 +118,7 @@ struct TuplePrinter
      static void print( std::ostream& ostr, const std::tuple< Args... >& tuple )
      {
           ostr
-               << ostream_tools::quote( std::get< Index >( tuple ) )
+               << using_cpp::io::tools::quote( std::get< Index >( tuple ) )
                << (Index + 1 == Size ? "" : ", ");
           TuplePrinter< Index + 1, Size, Args... >::print( ostr, tuple );
      }
@@ -131,11 +132,14 @@ struct TuplePrinter< Size, Size, Args... >
      {}
 };
 
-}
+
+} // namespace tools
+} // namespace io
+} // namespace using_cpp
 
 
 template< typename T >
-inline std::ostream& operator<<( std::ostream& ostr, const ostream_tools::Quote< T >& quoted )
+inline std::ostream& operator<<( std::ostream& ostr, const using_cpp::io::tools::Quote< T >& quoted )
 {
      quoted.print( ostr );
      return ostr;
@@ -143,11 +147,11 @@ inline std::ostream& operator<<( std::ostream& ostr, const ostream_tools::Quote<
 
 
 template< typename Iter >
-std::ostream& operator<<( std::ostream& ostr, const ostream_tools::Range< Iter >& seq )
+std::ostream& operator<<( std::ostream& ostr, const using_cpp::io::tools::Range< Iter >& seq )
 {
      for( auto iter = seq.begin; iter != seq.end; ++iter )
      {
-          ostr << (iter == seq.begin ? "" : seq.sep) << ostream_tools::quote( *iter );
+          ostr << (iter == seq.begin ? "" : seq.sep) << using_cpp::io::tools::quote( *iter );
      }
      return ostr;
 }
@@ -158,7 +162,7 @@ inline std::ostream& operator<<( std::ostream& ostr, const std::tuple< Args... >
 {
      ostr << boost::typeindex::type_id< decltype( tuple ) >().pretty_name()
           << "{";
-     ostream_tools::TuplePrinter< 0, sizeof...( Args ), Args... >::print( ostr, tuple );
+     using_cpp::io::tools::TuplePrinter< 0, sizeof...( Args ), Args... >::print( ostr, tuple );
      ostr << "}";
      return ostr;
 }
@@ -169,9 +173,9 @@ inline std::ostream& operator<<( std::ostream& ostr, const std::pair< T, U >& pa
 {
      ostr << boost::typeindex::type_id< decltype( pair ) >().pretty_name()
           << "{"
-          << ostream_tools::quote( pair.first )
+          << using_cpp::io::tools::quote( pair.first )
           << ", "
-          << ostream_tools::quote( pair.second )
+          << using_cpp::io::tools::quote( pair.second )
           << "}";
      return ostr;
 }
@@ -182,7 +186,7 @@ inline std::ostream& operator<<( std::ostream& ostr, const std::array< T, Size >
 {
      ostr << boost::typeindex::type_id< decltype( array ) >().pretty_name()
           << "{"
-          << ostream_tools::range( array.cbegin(), array.cend() )
+          << using_cpp::io::tools::range( array.cbegin(), array.cend() )
           << "}";
      return ostr;
 }
@@ -193,7 +197,7 @@ inline std::ostream& operator<<( std::ostream& ostr, const std::vector< T, A >& 
 {
      ostr << boost::typeindex::type_id< decltype( vector ) >().pretty_name()
           << "{"
-          << ostream_tools::range( vector.cbegin(), vector.cend() )
+          << using_cpp::io::tools::range( vector.cbegin(), vector.cend() )
           << "}";
      return ostr;
 }
@@ -204,7 +208,7 @@ inline std::ostream& operator<<( std::ostream& ostr, const std::set< T, C, A >& 
 {
      ostr << boost::typeindex::type_id< decltype( set ) >().pretty_name()
           << "{"
-          << ostream_tools::range( set.cbegin(), set.cend() )
+          << using_cpp::io::tools::range( set.cbegin(), set.cend() )
           << "}";
      return ostr;
 }
@@ -218,9 +222,9 @@ std::ostream& operator<<( std::ostream& ostr, const std::map< K, V, C, A >& m )
      for( auto iter = m.cbegin(); iter != m.cend(); ++iter )
      {
           ostr << (iter == m.cbegin() ? "" : ", ")
-               << ostream_tools::quote( iter->first )
+               << using_cpp::io::tools::quote( iter->first )
                << ": "
-               << ostream_tools::quote( iter->second );
+               << using_cpp::io::tools::quote( iter->second );
      }
      ostr << "}";
      return ostr;
@@ -232,7 +236,7 @@ inline std::ostream& operator<<( std::ostream& ostr, const std::unordered_set< T
 {
      ostr << boost::typeindex::type_id< decltype( set ) >().pretty_name()
           << "{"
-          << ostream_tools::range( set.cbegin(), set.cend() )
+          << using_cpp::io::tools::range( set.cbegin(), set.cend() )
           << "}";
      return ostr;
 }
@@ -243,7 +247,7 @@ inline std::ostream& operator<<( std::ostream& ostr, const std::unordered_multis
 {
      ostr << boost::typeindex::type_id< decltype( set ) >().pretty_name()
           << "{"
-          << ostream_tools::range( set.cbegin(), set.cend() )
+          << using_cpp::io::tools::range( set.cbegin(), set.cend() )
           << "}";
      return ostr;
 }
@@ -257,9 +261,9 @@ std::ostream& operator<<( std::ostream& ostr, const std::unordered_map< K, V, H,
      for( auto iter = m.cbegin(); iter != m.cend(); ++iter )
      {
           ostr << (iter == m.cbegin() ? "" : ", ")
-               << ostream_tools::quote( iter->first )
+               << using_cpp::io::tools::quote( iter->first )
                << ": "
-               << ostream_tools::quote( iter->second );
+               << using_cpp::io::tools::quote( iter->second );
      }
      ostr << "}";
      return ostr;
