@@ -62,6 +62,13 @@ const std::string details( const NetworkError error )
 }
 
 
+const std::error_category& category()
+{
+     static const aux::NetworkErrorCategory inst;
+     return inst;
+}
+
+
 } // namespace network
 namespace http {
 
@@ -84,20 +91,25 @@ const std::string details( const HttpErrorStatus status )
 }
 
 
+const std::error_category& category()
+{
+     static const aux::HttpErrorCategory inst;
+     return inst;
+}
+
+
 } // namespace http
 
 
 std::error_code make_error_code( const using_cpp::errors::network::NetworkError error )
 {
-     static const aux::NetworkErrorCategory inst;
-     return { static_cast< int >( error ), inst };
+     return { static_cast< int >( error ), network::category() };
 }
 
 
 std::error_code make_error_code( const using_cpp::errors::http::HttpErrorStatus status )
 {
-     static const aux::HttpErrorCategory inst;
-     return { static_cast< int >( status ), inst };
+     return { static_cast< int >( status ), http::category() };
 }
 
 

@@ -32,6 +32,7 @@ enum class NetworkError
 
 
 const std::string details( const NetworkError error );
+const std::error_category& category();
 
 
 } // namespace network
@@ -50,6 +51,7 @@ enum class HttpErrorStatus
 
 
 const std::string details( const HttpErrorStatus status );
+const std::error_category& category();
 
 
 } // namespace http
