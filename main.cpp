@@ -4,6 +4,7 @@
 /// Created on: Oct 11, 2017
 ///     Author: alexen
 ///
+///iGotfry был здесь
 
 #include <map>
 #include <set>
