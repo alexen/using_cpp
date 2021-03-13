@@ -27,7 +27,6 @@
 #include <user_streambuf.h>
 #include <errors/errors.h>
 
-//Бесполезная строка
 
 class FileDescriptorOstream : public std::ostream {
 public:
