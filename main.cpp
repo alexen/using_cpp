@@ -23,9 +23,9 @@
 #include <boost/exception/diagnostic_information.hpp>
 #include <entities/person.h>
 #include <entities/person_io.h>
-#include <io/tools.h>
 #include <user_streambuf.h>
 #include <errors/errors.h>
+#include <io/ostream.h>
 
 
 class FileDescriptorOstream : public std::ostream {

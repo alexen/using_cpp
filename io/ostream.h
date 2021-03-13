@@ -147,7 +147,7 @@ inline std::ostream& operator<<( std::ostream& ostr, const using_cpp::io::tools:
 
 
 template< typename Iter >
-std::ostream& operator<<( std::ostream& ostr, const using_cpp::io::tools::Range< Iter >& seq )
+inline std::ostream& operator<<( std::ostream& ostr, const using_cpp::io::tools::Range< Iter >& seq )
 {
      for( auto iter = seq.begin; iter != seq.end; ++iter )
      {
@@ -215,7 +215,7 @@ inline std::ostream& operator<<( std::ostream& ostr, const std::set< T, C, A >& 
 
 
 template< typename K, typename V, typename C, typename A >
-std::ostream& operator<<( std::ostream& ostr, const std::map< K, V, C, A >& m )
+inline std::ostream& operator<<( std::ostream& ostr, const std::map< K, V, C, A >& m )
 {
      ostr << boost::typeindex::type_id< decltype( m ) >().pretty_name()
           << "{";
@@ -254,7 +254,7 @@ inline std::ostream& operator<<( std::ostream& ostr, const std::unordered_multis
 
 
 template< typename K, typename V, typename H, typename P, typename A >
-std::ostream& operator<<( std::ostream& ostr, const std::unordered_map< K, V, H, P, A >& m )
+inline std::ostream& operator<<( std::ostream& ostr, const std::unordered_map< K, V, H, P, A >& m )
 {
      ostr << boost::typeindex::type_id< decltype( m ) >().pretty_name()
           << "{";

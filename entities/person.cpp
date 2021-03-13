@@ -6,7 +6,7 @@
 ///
 
 #include <entities/person.h>
-#include <io/tools.h>
+#include <io/ostream.h>
 #include <iostream>
 
 
