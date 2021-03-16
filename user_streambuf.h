@@ -11,12 +11,20 @@
 #include <vector>
 
 
+namespace using_cpp {
+namespace types {
+
+
 using Buffer = std::vector< char >;
+
+
+} // namespace types
+namespace custom_streambuf {
 
 
 class BufferStream : public std::streambuf {
 public:
-     explicit BufferStream( Buffer& outbuf ) : outbuf_{ outbuf } {}
+     explicit BufferStream( types::Buffer& outbuf ) : outbuf_{ outbuf } {}
 protected:
      virtual int_type overflow( const int_type c ) override
      {
@@ -33,7 +41,7 @@ protected:
           return len;
      }
 private:
-     Buffer& outbuf_;
+     types::Buffer& outbuf_;
 };
 
 
@@ -118,6 +126,10 @@ public:
                );
      }
 
-     explicit InputBuffer( const Buffer& buffer )
+     explicit InputBuffer( const types::Buffer& buffer )
           : InputBuffer( buffer.data(), buffer.size() ) {}
 };
+
+
+} // namespace custom_streambuf
+} // namespace using_cpp

@@ -28,6 +28,9 @@
 #include <io/ostream.h>
 
 
+namespace using_cpp {
+
+
 class FileDescriptorOstream : public std::ostream {
 public:
      explicit FileDescriptorOstream( int fd )
@@ -38,8 +41,11 @@ public:
      }
 
 protected:
-     FdStreambuf fdstreambuf_;
+     custom_streambuf::FdStreambuf fdstreambuf_;
 };
+
+
+} // namespace using_cpp
 
 
 int main()
