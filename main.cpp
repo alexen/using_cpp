@@ -46,12 +46,6 @@ int main()
 {
      try
      {
-          using namespace using_cpp::errors;
-
-          BOOST_THROW_EXCEPTION( Exception{ make_error_code( network::NetworkError::ConnectionRefused ) } );
-//          BOOST_THROW_EXCEPTION( Exception{ make_error_code( http::HttpErrorStatus::Forbidden ) } );
-
-          std::cout << "done.\n";
      }
      catch( const using_cpp::errors::Exception& e )
      {
@@ -64,6 +58,7 @@ int main()
           {
                std::cerr << "exception: rethrow as http error, code: " << e.code().value() << '\n';
           }
+          std::cerr << "exception: " << boost::diagnostic_information( e ) << '\n';
      }
      catch( const std::exception& e )
      {
