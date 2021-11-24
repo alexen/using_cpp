@@ -1,1 +1,10 @@
 language: cpp
+compiler: gcc
+os: linux
+addons:
+  apt:
+    packages:
+      - cmake
+script:
+  - cmake .
+  - make -j$(nproc)
